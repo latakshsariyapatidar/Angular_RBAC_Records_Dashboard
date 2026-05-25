@@ -9,5 +9,14 @@ const Router = express.Router();
  */
 Router.post("/register", authController.userRegisterController);
 
+/**
+ * POST /api/auth/login
+ */
+Router.post("/login", authController.userLoginController);
+
+/** 
+ * GET /api/auth/logout
+ */
+Router.post("/logout", authController.userLogoutController);
 
 module.exports = Router;

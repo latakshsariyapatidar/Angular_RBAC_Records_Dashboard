@@ -4,6 +4,8 @@ const cors = require('cors');
 
 
 const authRouter = require('./routes/auth.routes');
+const recordsRouter = require('./routes/records.routes');
+const userRouter = require('./routes/user.routes');
 
 const app = express();
 
@@ -19,5 +21,9 @@ app.get('/', (req, res) => {
 // Public route for authentication
 app.use("/api/auth", authRouter);
 
+app.use("/api/records", recordsRouter);
+
+// Protected admin routes
+app.use("/api/admin/users", userRouter);
 
 module.exports  = app;
