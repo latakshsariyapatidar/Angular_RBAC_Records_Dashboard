@@ -4,10 +4,9 @@ async function delayController (req, res, next){
         await new Promise(r => setTimeout(r, ms)
         )
     }
-
     next();
 }
 
 
 
-module.exports = delayController;
+module.exports = {delayController};
