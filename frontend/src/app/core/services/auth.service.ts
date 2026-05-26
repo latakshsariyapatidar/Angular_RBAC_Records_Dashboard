@@ -25,12 +25,10 @@ export class AuthService {
         return this.http.post<AuthResponse>('/api/auth/login', credentials, {withCredentials: true}).pipe(
             tap((response) => {
                 this.currentUser.set(response.user);
-                console.log('Login successful, user set:', response.user);
-                this.router.navigate(['/']);
             }),
             catchError((error) => {
                 console.error('Login failed:', error);
-                return of(null);
+                throw error;
             })
         )
     }
@@ -51,14 +49,13 @@ export class AuthService {
         return this.http.post('/api/auth/logout', {}, {withCredentials: true}).pipe(
             tap(() => {
                 this.currentUser.set(null);
-                console.log('Logout successful, user cleared');
                 this.router.navigate(['/login']);
             }),
             catchError((error) => {
                 console.error('Logout failed:', error);
                 this.currentUser.set(null);
                 this.router.navigate(['/login']);
-                return of(null);
+                throw error;
             })
         )
     }

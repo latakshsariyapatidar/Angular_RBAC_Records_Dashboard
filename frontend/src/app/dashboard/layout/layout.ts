@@ -14,7 +14,9 @@ import {inject} from '@angular/core';
 })
 export class Layout {
   sidebarOpen = true;
-  currentUser: User | null = null;;
+  currentUser: User | null = null;
+
+  isLogginOut = false;
 
   constructor(private router: Router) {
   }
@@ -34,11 +36,22 @@ export class Layout {
   }
 
   logout(){
-    console.log('Logging out user:', this.currentUser?.email);
-    this.router.navigate(['/login']);
+    if (this.isLogginOut) return;
+    this.isLogginOut = true;
+
+    this.authService.logout().subscribe({
+      complete: () => {
+        this.isLogginOut = false;
+        this.router.navigate(['/login']);
+      },
+      error : (err) => {
+        this.isLogginOut = false;
+        this.router.navigate(['/login']);
+        throw err;
+      }
+    })
   }
   navigateTo(route : string) {
-    console.log('Navigating to:', route);
     this.router.navigate(['/dashboard', route]);
   }
 }

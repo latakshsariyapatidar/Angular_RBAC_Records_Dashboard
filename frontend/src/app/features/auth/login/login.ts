@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {AuthService} from '@core/services/auth.service';
-import {User} from '@shared/interfaces/user.model';
 
 @Component({
   selector: 'app-login',
@@ -28,25 +27,20 @@ export class Login {
       return;
     }
 
-
-    console.log('Login attempt:', { email: this.email });
     this.errorMessage = '';
-
     this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
 
-      const user: User = {
-        _id: 'user-' + Math.random(),
-        email : this.email,
-        name : this.email.split('@')[0],
-        role:this.role as 'General User' | 'Admin'
-      }
+    this.authService.login({email: this.email, password: this.password}).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.messsage || 'Login failed. Please try again.';
+      } 
+    });
 
-      this.authService.setUser(user);
-
-      this.router.navigate(['/dashboard']);
-    }, 500);
   }
 
   clearError(){
