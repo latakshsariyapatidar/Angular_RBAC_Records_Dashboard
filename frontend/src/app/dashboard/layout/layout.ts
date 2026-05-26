@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import {AuthService} from '@core/services/auth.service';
 import {User} from '@shared/interfaces/user.model';
-import {inject} from '@angular/core';
 
 @Component({
   selector: 'app-layout',

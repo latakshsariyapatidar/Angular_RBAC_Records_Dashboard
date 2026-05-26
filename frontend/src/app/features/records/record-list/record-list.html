@@ -1,0 +1,33 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-3xl font-bold text-slate-900 mb-2">Records</h2>
+    <p class="text-slate-600">
+      <span *ngIf="!isAdmin">Your records</span>
+      <span *ngIf="isAdmin">All records in the system</span>
+    </p>
+  </div>
+
+  <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+    {{ errorMessage }}
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+    <app-table
+      [columns]="columns"
+      [rows]="records"
+      [isLoading]="isLoading"
+      emptyMessage="No records found"
+    ></app-table>
+  </div>
+
+  <div class="flex gap-3">
+    <button
+      (click)="loadRecords()"
+      [disabled]="isLoading"
+      class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-lg font-medium transition-colors"
+    >
+      <span *ngIf="!isLoading">Refresh Records</span>
+      <span *ngIf="isLoading">Loading...</span>
+    </button>
+  </div>
+</div>

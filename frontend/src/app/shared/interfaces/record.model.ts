@@ -4,7 +4,9 @@
 
 export interface Record {
     _id : string;
-    userId : string;
-    data : any;
+    userId : any;
+    title? : string;
+    description? : string;
     createdAt: string;
+    __v? : number;
 }
