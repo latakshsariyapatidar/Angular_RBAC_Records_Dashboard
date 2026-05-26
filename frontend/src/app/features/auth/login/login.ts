@@ -34,11 +34,12 @@ export class Login {
       next: () => {
         this.isLoading = false;
         this.cdr.detectChanges();
-        this.router.navigate(['/records']);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.message;
+        this.errorMessage = err.error?.message || 'Login failed. Please try again.';
+        console.log(err);
         this.cdr.detectChanges();
       },
     });
