@@ -106,7 +106,39 @@
     </header>
 
     <div class="flex-1 overflow-auto p-6">
-      <router-outlet></router-outlet>
+      <!-- <router-outlet></router-outlet> -->
+
+      <div class="flex-1 overflow-auto p-6">
+        <ng-container *ngIf="isDashboardHome; else childRoutes">
+          <div class="h-full flex items-center justify-center">
+            <div class="text-center max-w-xl">
+              <h1 class="text-5xl font-bold text-slate-800 mb-4">
+                Welcome {{ currentUser?.name }}
+              </h1>
+
+              <p class="text-lg text-slate-600 mb-2">
+                You have successfully logged in to the RBAC Dashboard.
+              </p>
+
+              <p class="text-slate-500 text-base">
+                Please select your desired destination from the sidebar to continue.
+              </p>
+
+              <div class="mt-8 flex justify-center">
+                <div
+                  class="px-6 py-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 shadow-sm"
+                >
+                  👈 Use the sidebar navigation menu
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #childRoutes>
+          <router-outlet></router-outlet>
+        </ng-template>
+      </div>
     </div>
   </main>
 </div>
