@@ -16,8 +16,8 @@ This repository contains two apps:
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd "Mploycheck_Assignment fullstack"
+git clone https://github.com/latakshsariyapatidar/Angular_RBAC_Records_Dashboard
+cd "Angular_RBAC_Records_Dashboard"
 ```
 
 ### 2. Configure the backend
