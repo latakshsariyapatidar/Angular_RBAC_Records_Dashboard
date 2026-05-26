@@ -12,13 +12,15 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
+  private readonly STORAGE_KEY = 'currentUser';
+
   currentUser = signal<User | null>(null);
 
   isAdmin = computed(() => this.currentUser()?.role === 'Admin');
 
-  constructor() {}
-
-  
+  constructor() {
+    this.restoreSession();
+  }
 
   login(credentials: { email: string; password: string }) {
     return this.http
@@ -26,6 +28,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.currentUser.set(response.user);
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(response.user));
         }),
         catchError((error) => {
           console.error('Login failed:', error);
@@ -61,5 +64,19 @@ export class AuthService {
         throw error;
       }),
     );
+  }
+
+  private restoreSession(){
+    const storedUser = localStorage.getItem(this.STORAGE_KEY);
+    if (storedUser){
+      try{
+        const user = JSON.parse(storedUser) as User;
+        console.log("Sessions Restored");
+        this.currentUser.set(user);
+      }catch(err){
+        console.error('Failed to restore session:', err);
+        localStorage.removeItem(this.STORAGE_KEY);
+      }
+    }
   }
 }
