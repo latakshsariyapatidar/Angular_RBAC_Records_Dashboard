@@ -9,19 +9,25 @@ import { throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
+  // Injecting HttpClient and Router using Angular's inject function
   private http = inject(HttpClient);
   private router = inject(Router);
 
+  // Key for storing user data in localStorage
   private readonly STORAGE_KEY = 'currentUser';
 
+  // Signal to hold the current user state
   currentUser = signal<User | null>(null);
 
+  // Computed property to check if the current user has an admin role
   isAdmin = computed(() => this.currentUser()?.role === 'Admin');
 
+  // Constructor to restore session on service initialization
   constructor() {
     this.restoreSession();
   }
 
+  // Method to handle user login
   login(credentials: { email: string; password: string }) {
     return this.http
       .post<AuthResponse>('/api/auth/login', credentials, { withCredentials: true })
@@ -51,6 +57,7 @@ export class AuthService {
     return this.currentUser() !== null;
   }
 
+  // Method to handle user logout
   logout() {
     return this.http.post('/api/auth/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
@@ -68,6 +75,7 @@ export class AuthService {
     );
   }
 
+  // Method to restore user session from localStorage
   private restoreSession() {
     const storedUser = localStorage.getItem(this.STORAGE_KEY);
     if (storedUser) {
