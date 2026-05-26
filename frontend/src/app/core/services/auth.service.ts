@@ -55,25 +55,27 @@ export class AuthService {
     return this.http.post('/api/auth/logout', {}, { withCredentials: true }).pipe(
       tap(() => {
         this.currentUser.set(null);
+        localStorage.removeItem(this.STORAGE_KEY);
         this.router.navigate(['/login']);
       }),
       catchError((error) => {
         console.error('Logout failed:', error);
         this.currentUser.set(null);
+        localStorage.removeItem(this.STORAGE_KEY);
         this.router.navigate(['/login']);
         throw error;
       }),
     );
   }
 
-  private restoreSession(){
+  private restoreSession() {
     const storedUser = localStorage.getItem(this.STORAGE_KEY);
-    if (storedUser){
-      try{
+    if (storedUser) {
+      try {
         const user = JSON.parse(storedUser) as User;
-        console.log("Sessions Restored");
+        console.log('Sessions Restored');
         this.currentUser.set(user);
-      }catch(err){
+      } catch (err) {
         console.error('Failed to restore session:', err);
         localStorage.removeItem(this.STORAGE_KEY);
       }
