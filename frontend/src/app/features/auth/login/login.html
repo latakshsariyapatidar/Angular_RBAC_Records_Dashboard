@@ -48,7 +48,13 @@
           [disabled]="isLoading"
           class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-medium py-2.5 rounded-lg transition-colors duration-200"
         >
-          {{ isLoading ? 'Signing in...' : 'Sign In' }}
+          @if (isLoading) {
+            <span>Logging in...</span>
+          }
+
+          @if (!isLoading) {
+            <span>Login</span>
+          }
         </button>
       </form>
     </div>

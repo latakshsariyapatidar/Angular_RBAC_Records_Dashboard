@@ -1,24 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import {AuthService} from '@core/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
+  styleUrls: ['./login.scss'],
 })
 export class Login {
   email = '';
   password = '';
   errorMessage = '';
   isLoading = false;
-  role :  'General User' | 'Admin' = 'General User';
 
   private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
   constructor(private router: Router) {}
 
   onSubmit() {
@@ -30,20 +30,21 @@ export class Login {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.authService.login({email: this.email, password: this.password}).subscribe({
+    this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: () => {
         this.isLoading = false;
+        this.cdr.detectChanges();
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.messsage || 'Login failed. Please try again.';
-      } 
+        this.errorMessage = err.message;
+        this.cdr.detectChanges();
+      },
     });
-
   }
 
-  clearError(){
+  clearError() {
     this.errorMessage = '';
   }
 }
