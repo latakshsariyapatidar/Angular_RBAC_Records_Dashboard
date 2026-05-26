@@ -145,11 +145,12 @@ export class UserManagement {
         if (index !== -1) {
           this.users[index] = response.user;
         }
-        this.cdr.detectChanges();
 
         this.successMessage = `User "${response.user.name}" updated successfully`;
         this.closeEditModal();
         this.isSubmitting = false;
+        this.cdr.detectChanges();
+
         setTimeout(() => (this.successMessage = ''), 3000);
       },
       error: (error) => {

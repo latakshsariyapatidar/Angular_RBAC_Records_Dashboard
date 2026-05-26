@@ -35,13 +35,13 @@ export class UserService {
 
 
     updateUser(userId: string, userData : {email : string; name : string}) {
-        return this.http.put<UserResponse>(`/api/admin/users/${userId}`, userData, {
+        return this.http.patch<UserResponse>(`/api/admin/users/update/${userId}`, userData, {
             withCredentials: true,
         })
     }
 
     deleteUser (userId: string) {
-        return this.http.delete<{message : string}>(`/api/admin/users/${userId}`, {
+        return this.http.delete<{message : string}>(`/api/admin/users/delete/${userId}`, {
             withCredentials: true,
         })
     }
