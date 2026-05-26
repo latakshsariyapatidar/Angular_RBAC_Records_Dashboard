@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User, AuthResponse } from '@shared/interfaces';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class AuthService {
   // Method to handle user login
   login(credentials: { email: string; password: string }) {
     return this.http
-      .post<AuthResponse>('/api/auth/login', credentials, { withCredentials: true })
+      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, credentials, { withCredentials: true })
       .pipe(
         tap((response) => {
           this.currentUser.set(response.user);
@@ -59,7 +60,7 @@ export class AuthService {
 
   // Method to handle user logout
   logout() {
-    return this.http.post('/api/auth/logout', {}, { withCredentials: true }).pipe(
+    return this.http.post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true }).pipe(
       tap(() => {
         this.currentUser.set(null);
         localStorage.removeItem(this.STORAGE_KEY);

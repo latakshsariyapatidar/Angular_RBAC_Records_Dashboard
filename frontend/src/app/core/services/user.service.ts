@@ -1,8 +1,7 @@
-import { inject, Injectable, signal, computed } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '@shared/interfaces';
-import { tap, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 interface UsersResponse {
     message : string;
@@ -22,26 +21,26 @@ export class UserService {
     private http = inject(HttpClient);
 
     getUsers() {
-        return this.http.get<UsersResponse>('/api/admin/users', {
+        return this.http.get<UsersResponse>(`${environment.apiUrl}/admin/users`, {
             withCredentials: true,
         })
     }
 
     createUser(userData : {email : string; password : string; name : string}) {
-        return this.http.post<UserResponse>('/api/admin/users/register', userData, {
+        return this.http.post<UserResponse>(`${environment.apiUrl}/admin/users/register`, userData, {
             withCredentials: true,
         })
     }
 
 
     updateUser(userId: string, userData : {email : string; name : string}) {
-        return this.http.patch<UserResponse>(`/api/admin/users/update/${userId}`, userData, {
+        return this.http.patch<UserResponse>(`${environment.apiUrl}/admin/users/update/${userId}`, userData, {
             withCredentials: true,
         })
     }
 
     deleteUser (userId: string) {
-        return this.http.delete<{message : string}>(`/api/admin/users/delete/${userId}`, {
+        return this.http.delete<{message : string}>(`${environment.apiUrl}/admin/users/delete/${userId}`, {
             withCredentials: true,
         })
     }
