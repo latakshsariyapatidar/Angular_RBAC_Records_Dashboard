@@ -34,7 +34,7 @@ export class Login {
       next: () => {
         this.isLoading = false;
         this.cdr.detectChanges();
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/records']);
       },
       error: (err) => {
         this.isLoading = false;
